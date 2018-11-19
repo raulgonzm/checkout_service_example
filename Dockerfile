@@ -8,7 +8,7 @@ WORKDIR /code
 RUN mkdir /requirements
 COPY ./requirements /requirements
 
-COPY ./checkouts /app
+COPY ./checkouts /checkouts
 
 RUN pip install -r /requirements/$ENV.txt
 

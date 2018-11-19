@@ -13,8 +13,12 @@ services:
     environment:
       - ENV=local
       - DEBUG=True
-      - PYTHONPATH=/app/:/app/apps/:$PYTHONPATH
-    working_dir: /app/
+      - PYTHONPATH=/checkouts:$PYTHONPATH
+      - DATABASE_NAME=cabify_checkouts.db
+      - FLASK_APP=server.py
+    working_dir: /checkouts/
+    volumes:
+    - "$BACKEND_SERVICE_CODE/checkouts:/checkouts/"
     entrypoint:
       - /bin/sh
       - -c

@@ -17,6 +17,8 @@ class Config:
     ENV = get_env_variable("ENV")
     SECRET_KEY = 'RJGbf7r9nBbkANvadEdX4{4VJR'
     DEBUG = get_env_variable("DEBUG")
+    SQLALCHEMY_DATABASE_URI = get_env_variable('DATABASE_URL')
+    SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
 class ProductionConfig(Config):
