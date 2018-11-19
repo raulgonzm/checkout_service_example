@@ -1,4 +1,5 @@
 # Python imports
+from decimal import Decimal
 # Flask imports
 # Third-Party imports
 # Project Imports
@@ -9,7 +10,11 @@ class Product(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     code = db.Column(db.String, nullable=False, unique=True)
     name = db.Column(db.String, nullable=False)
-    price = db.Column(db.Float, nullable=False)
+    db_price = db.Column(db.Float, nullable=False)
 
     def __repr__(self):
         return f"<Product-{self.code}>"
+
+    @property
+    def price(self):
+        return Decimal(self.db_price)

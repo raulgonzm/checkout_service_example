@@ -1,5 +1,6 @@
 # Python imports
 import unittest
+from decimal import Decimal
 # Flask imports
 # Third-Party imports
 # Project Imports
@@ -16,6 +17,9 @@ class ProductModelsTestCase(unittest.TestCase):
             self.product.__repr__(),
             f"<Product-{self.product.code}>"
         )
+
+    def test_product_price(self):
+        self.assertIsInstance(self.product.price, Decimal)
 
 
 if __name__ == '__main__':
