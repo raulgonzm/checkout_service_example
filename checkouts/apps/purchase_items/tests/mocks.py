@@ -13,5 +13,5 @@ class PurchaseItemFactory(factory.alchemy.SQLAlchemyModelFactory):
 
     class Meta:
         model = PurchaseItem
-        exclude = ('product_id',)
+        exclude = ('product_id', 'checkout_id')
         sqlalchemy_session = db.session

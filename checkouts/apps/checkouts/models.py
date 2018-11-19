@@ -4,16 +4,15 @@
 from sqlalchemy.sql import func
 # Project Imports
 from apps import db
+from apps.purchase_items.models import PurchaseItem
 
 
-class PurchaseItem(db.Model):
+class Checkout(db.Model):
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
-    quantity = db.Column(db.Integer, nullable=False, default=1)
-    product_id = db.Column(db.Integer, db.ForeignKey('product.id'), nullable=False)
-    checkout_id = db.Column(db.Integer, db.ForeignKey('checkout.id'), nullable=False)
+    checkout_number = db.Column(db.String, nullable=False, unique=True)
+    purchase = db.relationship(PurchaseItem, backref='checkout', lazy=True)
 
     def __repr__(self):
-        return f"<PurchaseItem-{self.id}>"
-
+        return f"<Checkout-{self.id}>"
