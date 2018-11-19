@@ -1,4 +1,5 @@
 # Python imports
+from decimal import Decimal
 # Flask imports
 # Third-Party imports
 from sqlalchemy.sql import func
@@ -16,3 +17,13 @@ class Checkout(db.Model):
 
     def __repr__(self):
         return f"<Checkout-{self.id}>"
+
+    def calc_price(self):
+        total_price = Decimal(0.0)
+        for item in self.purchases:
+            total_price += item.price
+        return total_price
+
+    @property
+    def total(self):
+        return self.calc_price()
