@@ -1,5 +1,6 @@
 # Python imports
 import unittest
+from decimal import Decimal
 # Flask imports
 # Third-Party imports
 # Project Imports
@@ -14,12 +15,22 @@ class PurchaseItemModelsTestCase(unittest.TestCase):
         self.product = ProductFactory()
         self.checkout = CheckoutFactory()
         self.purchase_item = PurchaseItemFactory(
-            product_id=self.product.id,
-            checkout_id=self.checkout.id
+            product=self.product,
+            checkout=self.checkout
         )
+        self.product.purchase.append(self.purchase_item)
+        self.checkout.purchase.append(self.purchase_item)
 
     def test_repr_method(self):
         self.assertEqual(
             self.purchase_item.__repr__(),
             f"<PurchaseItem-{self.purchase_item.id}>"
+        )
+
+    def test_price_calc(self):
+        purchase_price = self.purchase_item.price
+        self.assertIsInstance(purchase_price, Decimal)
+        self.assertEqual(
+            purchase_price,
+            self.purchase_item.quantity * self.product.price
         )

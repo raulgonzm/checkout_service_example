@@ -17,3 +17,7 @@ class PurchaseItem(db.Model):
     def __repr__(self):
         return f"<PurchaseItem-{self.id}>"
 
+    @property
+    def price(self):
+        return self.product.price * self.quantity
+
