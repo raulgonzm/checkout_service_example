@@ -18,8 +18,8 @@ class PurchaseItemModelsTestCase(unittest.TestCase):
             product=self.product,
             checkout=self.checkout
         )
-        self.product.purchase.append(self.purchase_item)
-        self.checkout.purchase.append(self.purchase_item)
+        self.product.purchases.append(self.purchase_item)
+        self.checkout.purchases.append(self.purchase_item)
 
     def test_repr_method(self):
         self.assertEqual(

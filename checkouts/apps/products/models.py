@@ -15,7 +15,7 @@ class Product(db.Model):
     code = db.Column(db.String, nullable=False, unique=True)
     name = db.Column(db.String, nullable=False)
     db_price = db.Column(db.Float, nullable=False)
-    purchase = db.relationship(PurchaseItem, backref='product', lazy=True)
+    purchases = db.relationship(PurchaseItem, backref='product', lazy=True)
 
     def __repr__(self):
         return f"<Product-{self.code}>"

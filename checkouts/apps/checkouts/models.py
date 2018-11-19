@@ -12,7 +12,7 @@ class Checkout(db.Model):
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
     checkout_number = db.Column(db.String, nullable=False, unique=True)
-    purchase = db.relationship(PurchaseItem, backref='checkout', lazy=True)
+    purchases = db.relationship(PurchaseItem, backref='checkout', lazy=True)
 
     def __repr__(self):
         return f"<Checkout-{self.id}>"
