@@ -1,0 +1,28 @@
+version: '3'
+
+networks:
+  local:
+
+services:
+
+  checkout_service:
+    container_name: checkout_service_1
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      - ENV=local
+      - DEBUG=True
+      - PYTHONPATH=/app/:/app/apps/:$PYTHONPATH
+    working_dir: /app/
+    entrypoint:
+      - /bin/sh
+      - -c
+      - |
+          /usr/local/bin/gunicorn --workers "2" --log-level debug --error-logfile /tmp/gunicorn_err.log --reload --bind 0.0.0.0:8000 server:app
+    ports:
+      - "8005:8000"
+    networks:
+      local:
+        aliases:
+          - checkout_service
