@@ -14,6 +14,28 @@ class CheckoutModelsTestCase(unittest.TestCase):
     def setUp(self):
         self.checkout = CheckoutFactory()
 
+    def set_up_test_data_env(self, num_products):
+        products = []
+        purchases = []
+        checkout = CheckoutFactory()
+        for item in range(0, num_products):
+            product = ProductFactory()
+            purchase_item = PurchaseItemFactory(
+                product=product,
+                checkout=checkout
+            )
+            product.purchases.append(purchase_item)
+            checkout.purchases.append(purchase_item)
+            products.append(product)
+            purchases.append(purchase_item)
+        return products, checkout, purchases
+
+    def calc_checkout_price(self, checkout):
+        total_price = Decimal(0.0)
+        for item in checkout.purchases:
+            total_price += item.price
+        return total_price
+
     def test_repr_method(self):
         self.assertEqual(
             self.checkout.__repr__(),
@@ -27,63 +49,33 @@ class CheckoutModelsTestCase(unittest.TestCase):
         self.assertEqual(checkout_price, 0)
 
     def test_calc_price_only_one_product(self):
-        product = ProductFactory()
-        checkout = CheckoutFactory()
-        purchase_item = PurchaseItemFactory(
-            product=product,
-            checkout=checkout
-        )
-        product.purchases.append(purchase_item)
-        checkout.purchases.append(purchase_item)
+        products, checkout, puchases = self.set_up_test_data_env(num_products=1)
         checkout_price = checkout.calc_price()
         self.assertIsInstance(checkout_price, Decimal)
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
             checkout_price,
-            product.price * purchase_item.quantity
+            products[0].price * puchases[0].quantity
         )
 
     def test_calc_price_multiple_products(self):
-        product_one = ProductFactory()
-        product_two = ProductFactory()
-        checkout = CheckoutFactory()
-        purchase_item_one = PurchaseItemFactory(
-            product=product_one,
-            checkout=checkout
-        )
-        purchase_item_two = PurchaseItemFactory(
-            product=product_two,
-            checkout=checkout
-        )
-        product_one.purchases.append(purchase_item_one)
-        checkout.purchases.append(purchase_item_one)
-        product_two.purchases.append(purchase_item_two)
-        checkout.purchases.append(purchase_item_two)
+        products, checkout, puchases = self.set_up_test_data_env(num_products=10)
         checkout_price = checkout.calc_price()
         self.assertIsInstance(checkout_price, Decimal)
-
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
             checkout_price,
-            (product_one.price * purchase_item_one.quantity) + (product_two.price * purchase_item_two.quantity)
+            self.calc_checkout_price(checkout=checkout)
         )
 
     def test_total_property(self):
-        product = ProductFactory()
-        checkout = CheckoutFactory()
-        purchase_item = PurchaseItemFactory(
-            product=product,
-            checkout=checkout
-        )
-        product.purchases.append(purchase_item)
-        checkout.purchases.append(purchase_item)
+        products, checkout, puchases = self.set_up_test_data_env(num_products=5)
         checkout_total = checkout.total
         self.assertIsInstance(checkout_total, Decimal)
         self.assertNotEqual(checkout_total, 0)
         self.assertEqual(
-            checkout_total
-            ,
-            product.price * purchase_item.quantity
+            checkout_total,
+            self.calc_checkout_price(checkout=checkout)
         )
 
 
