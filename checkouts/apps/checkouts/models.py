@@ -27,3 +27,6 @@ class Checkout(db.Model):
     @property
     def total(self):
         return self.calc_price()
+
+    def scan(self, purchase_item):
+        self.purchases.append(purchase_item)

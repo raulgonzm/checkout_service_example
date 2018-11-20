@@ -78,6 +78,24 @@ class CheckoutModelsTestCase(unittest.TestCase):
             self.calc_checkout_price(checkout=checkout)
         )
 
+    def test_scan(self):
+        self.assertEqual(len(self.checkout.purchases), 0)
+        product_one = ProductFactory()
+        purchase_item_one = PurchaseItemFactory(
+            product=product_one,
+            checkout=self.checkout
+        )
+        self.checkout.scan(purchase_item=purchase_item_one
+                           )
+        self.assertEqual(len(self.checkout.purchases), 1)
+        product_two = ProductFactory()
+        purchase_item_two = PurchaseItemFactory(
+            product=product_two,
+            checkout=self.checkout
+        )
+        self.checkout.scan(purchase_item=purchase_item_two)
+        self.assertEqual(len(self.checkout.purchases), 2)
+
 
 if __name__ == '__main__':
     unittest.main()
