@@ -14,6 +14,7 @@ services:
       - ENV=local
       - DEBUG=True
       - PYTHONPATH=/checkouts:$PYTHONPATH
+      - SECRET_KEY=RJGbf7r9nBbkANvadEdX4{4VJR
       - DATABASE_NAME=cabify_checkouts.db
       - FLASK_APP=server.py
     working_dir: /checkouts/

@@ -1,5 +1,4 @@
 # Python imports
-import os
 from logging.handlers import RotatingFileHandler
 from logging import DEBUG
 # Flask imports
@@ -10,18 +9,35 @@ from flask_migrate import Migrate
 # Project imports
 
 
-env = os.environ.get('ENV', 'local')
-config = f"apps.settings.{env.capitalize()}Config"
-app = Flask(__name__)
-app.config.from_object(config)
+class CheckoutApp:
 
-if 'local' in env:
-    handler = RotatingFileHandler('/tmp/app.log', maxBytes=10000, backupCount=3)
-    handler.setLevel(DEBUG)
-    app.logger.addHandler(handler)
+    app = Flask(__name__)
+    db = SQLAlchemy(app)
+    env = "test"
 
+    def __new__(cls, env):
+        cls.env = env
+        if not cls.app:
+            cls.app = cls.start_app()
+            cls.start_db()
+        return cls.app, cls.db
 
-database_name = os.environ.get('DATABASE_NAME', 'checkouts.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{database_name}"
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+    @classmethod
+    def start_app(cls):
+        config = f"apps.settings.{cls.env.capitalize()}Config"
+        app = Flask(__name__)
+        app.config.from_object(config)
+        if 'local' in cls.env:
+            handler = RotatingFileHandler('/tmp/app.log', maxBytes=10000, backupCount=3)
+            handler.setLevel(DEBUG)
+            app.logger.addHandler(handler)
+        return app
+
+    @classmethod
+    def start_db(cls):
+        cls.app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{cls.app.config.get('DATABASE_NAME')}"
+        cls.app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+        cls.db = SQLAlchemy(cls.app)
+        Migrate(cls.app, cls.db)
+        if 'test' in cls.env:
+            cls.app.config['TESTING'] = True

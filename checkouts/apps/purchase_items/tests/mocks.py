@@ -3,12 +3,14 @@
 # Third-Party imports
 import factory
 # Project Imports
-from apps import db
 from apps.purchase_items.models import PurchaseItem
+
+from apps import CheckoutApp
+
+db = CheckoutApp.db
 
 
 class PurchaseItemFactory(factory.alchemy.SQLAlchemyModelFactory):
-    id = factory.Sequence(lambda n: n)
     quantity = factory.Faker("pyint")
 
     class Meta:

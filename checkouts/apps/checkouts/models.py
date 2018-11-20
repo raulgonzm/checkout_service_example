@@ -4,11 +4,14 @@ from decimal import Decimal
 # Third-Party imports
 from sqlalchemy.sql import func
 # Project Imports
-from apps import db
 from apps.purchase_items.models import PurchaseItem
+from apps import CheckoutApp
+
+db = CheckoutApp.db
 
 
 class Checkout(db.Model):
+    __tablename__ = 'checkouts'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())

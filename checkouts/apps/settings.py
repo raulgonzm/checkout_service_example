@@ -15,9 +15,9 @@ def get_env_variable(var_name):
 
 class Config:
     ENV = get_env_variable("ENV")
-    SECRET_KEY = 'RJGbf7r9nBbkANvadEdX4{4VJR'
+    SECRET_KEY = get_env_variable("SECRET_KEY")
     DEBUG = get_env_variable("DEBUG")
-    SQLALCHEMY_DATABASE_URI = get_env_variable('DATABASE_URL')
+    DATABASE_NAME = get_env_variable('DATABASE_NAME')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
 
 
@@ -44,3 +44,4 @@ class LocalConfig(Config):
 class TestConfig(Config):
     ENV = 'test'
     DEBUG = True
+    DATABASE_NAME = "test.db"

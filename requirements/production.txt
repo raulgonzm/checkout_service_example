@@ -7,3 +7,4 @@ factory-boy==2.10.0
 Flask-SQLAlchemy==2.3.2
 Flask-Migrate==2.3.0
 pytest-cov==2.6.0
+Flask-Testing==0.7.1
