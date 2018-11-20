@@ -85,8 +85,7 @@ class CheckoutModelsTestCase(unittest.TestCase):
             product=product_one,
             checkout=self.checkout
         )
-        self.checkout.scan(purchase_item=purchase_item_one
-                           )
+        self.checkout.scan(purchase_item=purchase_item_one)
         self.assertEqual(len(self.checkout.purchases), 1)
         product_two = ProductFactory()
         purchase_item_two = PurchaseItemFactory(
