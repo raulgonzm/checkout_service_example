@@ -5,3 +5,5 @@
 
 
 ALL_TARGET_TYPE = "ALL"
+PERCENTAGE_TYPE = "percentage"
+FIXED_AMOUNT_TYPE = "fixed_amount"
