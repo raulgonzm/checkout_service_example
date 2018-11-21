@@ -4,6 +4,8 @@ import unittest
 # Third-Party imports
 # Project Imports
 from apps.checkouts.tests.mocks import CheckoutFactory
+from apps.pricing_rules.datastructures import DiscountRuleConfig
+from apps.pricing_rules.settings import ALL_TARGET_TYPE
 from apps.pricing_rules.tests import mocks
 from apps.pricing_rules.two_for_one_discount import TwoForOneDiscount
 from apps.products.tests.mocks import ProductFactory
@@ -79,6 +81,12 @@ class PricingRuleTwoForOneTestCase(unittest.TestCase):
 
     def test_apply_to_price_purchase_all_targets_quantity_greater(self):
         pricing_rule = TwoForOneDiscount(config=mocks.PRICING_RULE_TWO_FOR_ONE_ALL)
+        self.purchase_item.quantity = 2
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            1
+            * self.product.price
+        )
         self.purchase_item.quantity = 3
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
@@ -197,4 +205,40 @@ class PricingRuleTwoForOneTestCase(unittest.TestCase):
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
             self.purchase_item.price
+        )
+
+    def test_three_for_one(self):
+        mock_3_for_1 = DiscountRuleConfig(
+            title="Two For One",
+            target_type=ALL_TARGET_TYPE,
+            value_type="percentage",
+            value=-100,
+            prerequisite_quantity=3,
+            entitled_quantity=1
+        )
+        pricing_rule = TwoForOneDiscount(config=mock_3_for_1)
+        self.purchase_item.quantity = 3
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            1 * self.product.price
+        )
+        self.purchase_item.quantity = 4
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            2 * self.product.price
+        )
+        self.purchase_item.quantity = 5
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            2 * self.product.price
+        )
+        self.purchase_item.quantity = 6
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            2 * self.product.price
+        )
+        self.purchase_item.quantity = 7
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            3 * self.product.price
         )
