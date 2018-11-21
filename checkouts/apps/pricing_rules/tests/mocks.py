@@ -40,3 +40,21 @@ PRICING_RULE_FIXED_AMOUNT_VOUCHER = DiscountRuleConfig(
     prerequisite_quantity=0,
     entitled_quantity=1
 )
+
+PRICING_RULE_BULK_PURCHASE_ALL = DiscountRuleConfig(
+    title="Bulk Purchase",
+    target_type=ALL_TARGET_TYPE,
+    value_type="percentage",
+    value=5,
+    prerequisite_quantity=3,
+    entitled_quantity=1
+)
+
+PRICING_RULE_BULK_PURCHASE_VOUCHER = DiscountRuleConfig(
+    title="Bulk Purchase",
+    target_type="VOUCHER",
+    value_type="percentage",
+    value=5,
+    prerequisite_quantity=3,
+    entitled_quantity=1
+)

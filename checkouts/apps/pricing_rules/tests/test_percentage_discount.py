@@ -1,16 +1,17 @@
 # Python imports
 import unittest
+from decimal import Decimal
 # Flask imports
 # Third-Party imports
 # Project Imports
 from apps.checkouts.tests.mocks import CheckoutFactory
-from apps.pricing_rules.fixed_amount_discount import FixedAmountDiscount
+from apps.pricing_rules.percentage_discount import PercentageDiscount
 from apps.pricing_rules.tests import mocks
 from apps.products.tests.mocks import ProductFactory
 from apps.purchase_items.tests.mocks import PurchaseItemFactory
 
 
-class PricingRuleFixedAmountTestCase(unittest.TestCase):
+class PricingRuleTwoForOneTestCase(unittest.TestCase):
 
     def setUp(self):
         self.product = ProductFactory()
@@ -23,131 +24,128 @@ class PricingRuleFixedAmountTestCase(unittest.TestCase):
         self.checkout.purchases.append(self.purchase_item)
 
     def test_is_applicable_by_target_type_target_all(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.assertTrue(pricing_rule.is_applicable_by_target_type(target=self.purchase_item.product.code))
 
     def test_is_applicable_by_target_type_target_concrete_product(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.product.code = "VOUCHER"
         self.assertTrue(pricing_rule.is_applicable_by_target_type(target=self.purchase_item.product.code))
 
     def test_is_not_applicable_by_target_type_target_concrete_product(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.assertFalse(pricing_rule.is_applicable_by_target_type(target=self.purchase_item.product.code))
 
     def test_is_applicable_by_quantity_greater_than(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 3
         self.assertTrue(pricing_rule.is_applicable_by_quantity(quantity=self.purchase_item.quantity))
 
     def test_is_applicable_by_quantity_less_than(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 1
-        self.assertTrue(pricing_rule.is_applicable_by_quantity(quantity=self.purchase_item.quantity))
+        self.assertFalse(pricing_rule.is_applicable_by_quantity(quantity=self.purchase_item.quantity))
 
     def test_is_applicable_to_purchase_all_targets_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 3
         self.assertTrue(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_is_applicable_to_purchase_all_targets_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 1
-        self.assertTrue(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
+        self.assertFalse(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_is_applicable_to_purchase_concrete_target_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.product.code = "VOUCHER"
         self.purchase_item.quantity = 3
         self.assertTrue(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_is_applicable_to_purchase_different_target_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.purchase_item.quantity = 3
         self.assertFalse(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_is_applicable_to_purchase_concrete_target_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.product.code = "VOUCHER"
         self.purchase_item.quantity = 1
-        self.assertTrue(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
+        self.assertFalse(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_is_applicable_to_purchase_different_target_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.purchase_item.quantity = 1
         self.assertFalse(pricing_rule.is_applicable_to_purchase(purchase=self.purchase_item))
 
     def test_apply_to_price_purchase_all_targets_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
-        self.purchase_item.quantity = 2
-        self.assertEqual(
-            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
-        )
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 3
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
         )
-        self.purchase_item.quantity = 1586
+        self.purchase_item.quantity = 5
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
         )
-
-    def test_apply_to_price_purchase_all_targets_quantity_greater_total_price_less_than_zero(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
-        self.product.db_price = pricing_rule.value - 1
-        self.purchase_item.quantity = 1
+        self.purchase_item.quantity = 567
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            0
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
+        )
+        self.product.db_price = 20.00
+        self.purchase_item.quantity = 3
+        self.assertEqual(
+            round(pricing_rule.apply_to_price_purchase(purchase=self.purchase_item), 2),
+            Decimal(57.00)
         )
 
     def test_apply_to_price_purchase_all_targets_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_ALL)
-        self.purchase_item.quantity = 1
-        self.assertEqual(
-            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
-        )
-
-    def test_apply_to_price_purchase_concrete_target_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
-        self.product.code = "VOUCHER"
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_ALL)
         self.purchase_item.quantity = 2
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
-        )
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
-        self.purchase_item.quantity = 498
-        self.assertEqual(
-            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
+            self.purchase_item.price
         )
 
-    def test_apply_to_price_purchase_concrete_target_quantity_greater_total_price_less_than_zero(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+    def test_apply_to_price_purchase_concrete_target_quantity_greater(self):
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.product.code = "VOUCHER"
-        self.product.db_price = pricing_rule.value - 1
-        self.purchase_item.quantity = 1
+        self.purchase_item.quantity = 3
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            0
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
+        )
+        self.purchase_item.quantity = 5
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
+        )
+        self.purchase_item.quantity = 567
+        self.assertEqual(
+            pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
+            self.purchase_item.price - (self.purchase_item.price * Decimal(pricing_rule.value / 100))
+        )
+        self.product.db_price = 20.00
+        self.purchase_item.quantity = 3
+        self.assertEqual(
+            round(pricing_rule.apply_to_price_purchase(purchase=self.purchase_item), 2),
+            Decimal(57.00)
         )
 
     def test_apply_to_price_purchase_concrete_target_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.product.code = "VOUCHER"
         self.purchase_item.quantity = 1
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            self.purchase_item.price - pricing_rule.value
+            self.purchase_item.price
         )
 
     def test_apply_to_price_purchase_different_target_quantity_greater(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.purchase_item.quantity = 3
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
@@ -155,10 +153,9 @@ class PricingRuleFixedAmountTestCase(unittest.TestCase):
         )
 
     def test_apply_to_price_purchase_different_target_quantity_less(self):
-        pricing_rule = FixedAmountDiscount(config=mocks.PRICING_RULE_FIXED_AMOUNT_VOUCHER)
+        pricing_rule = PercentageDiscount(config=mocks.PRICING_RULE_BULK_PURCHASE_VOUCHER)
         self.purchase_item.quantity = 1
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
             self.purchase_item.price
         )
-
