@@ -14,6 +14,7 @@ class PricingRuleFixedAmountTestCase(unittest.TestCase):
 
     def setUp(self):
         self.product = ProductFactory()
+        self.product.db_price = self.product.db_price + mocks.PRICING_RULE_FIXED_AMOUNT_ALL.value
         self.checkout = CheckoutFactory()
         self.purchase_item = PurchaseItemFactory(
             product=self.product,
