@@ -23,6 +23,7 @@ Router(Api(app))
 
 @manager.command
 def run():
+    db.create_all()
     app.run(
         host=app.config.get("SERVER_BIND_ADDRESS"),
         port=app.config.get("SERVER_PORT"),
