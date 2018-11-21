@@ -12,6 +12,7 @@ from apps.urls import Router
 from apps.checkouts.models import Checkout
 from apps.products.models import Product
 from apps.purchase_items.models import PurchaseItem
+from apps.products.fixtures import load_product_fixture
 
 app = create_app(env=get_env_variable("ENV"))
 app.app_context().push()
@@ -39,6 +40,11 @@ def test():
     if result.wasSuccessful():
         return 0
     return 1
+
+
+@manager.command
+def load_fixtures():
+    load_product_fixture()
 
 
 if __name__ == '__main__':
