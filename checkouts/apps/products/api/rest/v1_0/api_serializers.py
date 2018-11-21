@@ -8,4 +8,4 @@ from marshmallow import Schema, fields
 class ProductSerializer(Schema):
     code = fields.String(dump_only=True)
     name = fields.String(dump_only=True)
-    price = fields.Decimal(dump_only=True, places=2)
+    price = fields.Decimal(dump_only=True, places=2, as_string=True)

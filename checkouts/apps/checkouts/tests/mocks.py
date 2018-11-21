@@ -3,10 +3,8 @@
 # Third-Party imports
 import factory
 # Project Imports
+from apps import db
 from apps.checkouts.models import Checkout
-from apps import CheckoutApp
-
-db = CheckoutApp.db
 
 
 class CheckoutFactory(factory.alchemy.SQLAlchemyModelFactory):

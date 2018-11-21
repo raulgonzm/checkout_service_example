@@ -2,13 +2,13 @@
 # Flask imports
 # Third-Party imports
 # Project Imports
+from apps import db
 from apps.products.models import Product
-from apps import CheckoutApp
 
 
 def insert_product(product):
-    CheckoutApp.db.session.add(product)
-    CheckoutApp.db.session.commit()
+    db.session.add(product)
+    db.session.commit()
     return product
 
 

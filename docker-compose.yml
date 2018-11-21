@@ -16,7 +16,7 @@ services:
       - PYTHONPATH=/checkouts:$PYTHONPATH
       - SECRET_KEY=RJGbf7r9nBbkANvadEdX4{4VJR
       - DATABASE_NAME=cabify_checkouts.db
-      - FLASK_APP=server.py
+      - FLASK_APP=manage.py
     working_dir: /checkouts/
     volumes:
     - "$BACKEND_SERVICE_CODE/checkouts:/checkouts/"
@@ -24,7 +24,7 @@ services:
       - /bin/sh
       - -c
       - |
-          /usr/local/bin/gunicorn --workers "2" --log-level debug --error-logfile /tmp/gunicorn_err.log --reload --bind 0.0.0.0:8000 server:app
+          /usr/local/bin/gunicorn --workers "2" --log-level debug --error-logfile /tmp/gunicorn_err.log --reload --bind 0.0.0.0:8000 manage:app
     ports:
       - "8005:8000"
     networks:

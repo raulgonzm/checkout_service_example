@@ -1,13 +1,10 @@
 # Python imports
 # Flask imports
-
 # Third-Party imports
 import factory
 # Project Imports
+from apps import db
 from apps.products.models import Product
-from apps import CheckoutApp
-
-db = CheckoutApp.db
 
 
 class ProductFactory(factory.alchemy.SQLAlchemyModelFactory):

@@ -7,13 +7,11 @@ from decimal import Decimal
 from apps.checkouts.tests.mocks import CheckoutFactory
 from apps.products.tests.mocks import ProductFactory
 from apps.purchase_items.tests.mocks import PurchaseItemFactory
-from apps import CheckoutApp
 
 
 class CheckoutModelsTestCase(unittest.TestCase):
 
     def setUp(self):
-        self.app, self.db = CheckoutApp(env="test")
         self.checkout = CheckoutFactory()
 
     def set_up_test_data_env(self, num_products):

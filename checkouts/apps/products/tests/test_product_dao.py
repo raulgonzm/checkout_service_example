@@ -1,27 +1,30 @@
 # Python imports
-import unittest
 # Flask imports
 # Third-Party imports
+from flask_testing import TestCase
 # Project Imports
+from apps import create_app, db
 from apps.products.models import Product
 from apps.products.tests.mocks import ProductFactory
 from apps.products import product_dao
-from apps import CheckoutApp
 
 
-class ProductModelsTestCase(unittest.TestCase):
+class ProductDAOTestCase(TestCase):
+
+    def create_app(self):
+        app = create_app(env="test")
+        return app
 
     def setUp(self):
-        self.app, self.db = CheckoutApp(env="test")
-        self.db.session.remove()
-        self.db.drop_all()
-        self.db.create_all()
-        self.db.session.commit()
+        db.session.remove()
+        db.drop_all()
+        db.create_all()
+        db.session.commit()
         self.product = ProductFactory()
 
     def tearDown(self):
-        self.db.session.remove()
-        self.db.drop_all()
+        db.session.remove()
+        db.drop_all()
 
     def test_get_all_products(self):
         products = product_dao.get_all_products()

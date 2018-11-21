@@ -3,9 +3,7 @@
 # Third-Party imports
 from sqlalchemy.sql import func
 # Project Imports
-from apps import CheckoutApp
-
-db = CheckoutApp.db
+from apps import db
 
 
 class PurchaseItem(db.Model):

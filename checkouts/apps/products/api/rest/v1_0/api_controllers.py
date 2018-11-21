@@ -14,7 +14,8 @@ class ProductAPIController(Resource):
         return product_dao.get_all_products()
 
     def get(self):
-        serializer_class = self.serializer(many=True)
-        data = serializer_class.dumps(self.get_objects())
+        serializer_class = self.serializer()
+        objects = self.get_objects()
+        data = serializer_class.dump(objects, many=True)
         return data, 200
 

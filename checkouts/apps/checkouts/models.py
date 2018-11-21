@@ -4,10 +4,8 @@ from decimal import Decimal
 # Third-Party imports
 from sqlalchemy.sql import func
 # Project Imports
+from apps import db
 from apps.purchase_items.models import PurchaseItem
-from apps import CheckoutApp
-
-db = CheckoutApp.db
 
 
 class Checkout(db.Model):

@@ -17,4 +17,4 @@ class ProductSerializersTestCase(unittest.TestCase):
         result = serializer_class.dump(self.product)
         self.assertEqual(result.data['code'], self.product.code)
         self.assertEqual(result.data['name'], self.product.name)
-        self.assertEqual(result.data['price'], round(self.product.price, 2))
+        self.assertEqual(result.data['price'], str(round(self.product.price, 2)))
