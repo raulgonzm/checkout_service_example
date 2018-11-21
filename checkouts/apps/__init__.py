@@ -1,27 +1,24 @@
 # Python imports
-import os
 from logging.handlers import RotatingFileHandler
 from logging import DEBUG
 # Flask imports
 from flask import Flask
 # Third-Party imports
 from flask_sqlalchemy import SQLAlchemy
-from flask_migrate import Migrate
 # Project imports
+from .settings import config_by_name
 
 
-env = os.environ.get('ENV', 'local')
-config = f"apps.settings.{env.capitalize()}Config"
-app = Flask(__name__)
-app.config.from_object(config)
-
-if 'local' in env:
-    handler = RotatingFileHandler('/tmp/app.log', maxBytes=10000, backupCount=3)
-    handler.setLevel(DEBUG)
-    app.logger.addHandler(handler)
+db = SQLAlchemy()
 
 
-database_name = os.environ.get('DATABASE_NAME', 'checkouts.db')
-app.config['SQLALCHEMY_DATABASE_URI'] = f"sqlite:///{database_name}"
-db = SQLAlchemy(app)
-migrate = Migrate(app, db)
+def create_app(env):
+    app = Flask(__name__)
+    config = config_by_name[env]
+    app.config.from_object(config)
+    db.init_app(app)
+    if 'local' in env:
+        handler = RotatingFileHandler('/tmp/app.log', maxBytes=10000, backupCount=3)
+        handler.setLevel(DEBUG)
+        app.logger.addHandler(handler)
+    return app

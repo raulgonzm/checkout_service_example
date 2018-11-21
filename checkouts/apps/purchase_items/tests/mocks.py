@@ -8,7 +8,6 @@ from apps.purchase_items.models import PurchaseItem
 
 
 class PurchaseItemFactory(factory.alchemy.SQLAlchemyModelFactory):
-    id = factory.Sequence(lambda n: n)
     quantity = factory.Faker("pyint")
 
     class Meta:

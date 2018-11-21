@@ -5,6 +5,9 @@ import os
 # Project imports
 
 
+base_dir = os.path.abspath(os.path.dirname(__file__))
+
+
 def get_env_variable(var_name):
     try:
         return os.getenv(var_name)
@@ -15,10 +18,13 @@ def get_env_variable(var_name):
 
 class Config:
     ENV = get_env_variable("ENV")
-    SECRET_KEY = 'RJGbf7r9nBbkANvadEdX4{4VJR'
+    SECRET_KEY = get_env_variable("SECRET_KEY")
     DEBUG = get_env_variable("DEBUG")
-    SQLALCHEMY_DATABASE_URI = get_env_variable('DATABASE_URL')
+    SERVER_PORT = 9000
+    SERVER_BIND_ADDRESS = "0.0.0.0"
+    DATABASE_NAME = get_env_variable('DATABASE_NAME')
     SQLALCHEMY_TRACK_MODIFICATIONS = False
+    SQLALCHEMY_DATABASE_URI = f"sqlite:///{os.path.join(base_dir, DATABASE_NAME)}"
 
 
 class ProductionConfig(Config):
@@ -26,10 +32,6 @@ class ProductionConfig(Config):
 
 
 class StagingConfig(Config):
-    pass
-
-
-class IntegrationConfig(Config):
     pass
 
 
@@ -44,3 +46,15 @@ class LocalConfig(Config):
 class TestConfig(Config):
     ENV = 'test'
     DEBUG = True
+    TESTING = True
+    DATABASE_NAME = "test.db"
+    SQLALCHEMY_CONTEXT_ON_EXCEPTION = False
+
+
+config_by_name = dict(
+    test=TestConfig,
+    local=LocalConfig,
+    itg=ItgConfig,
+    stg=StagingConfig,
+    prod=ProductionConfig,
+)

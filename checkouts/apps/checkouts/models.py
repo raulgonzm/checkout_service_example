@@ -9,6 +9,7 @@ from apps.purchase_items.models import PurchaseItem
 
 
 class Checkout(db.Model):
+    __tablename__ = 'checkouts'
     id = db.Column(db.Integer, primary_key=True)
     created_at = db.Column(db.DateTime(timezone=True), server_default=func.now())
     updated_at = db.Column(db.DateTime(timezone=True), onupdate=func.now())
