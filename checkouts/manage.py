@@ -23,6 +23,7 @@ Router(Api(app))
 
 @manager.command
 def run():
+    db.create_all()
     app.run(
         host=app.config.get("SERVER_BIND_ADDRESS"),
         port=app.config.get("SERVER_PORT"),
@@ -34,6 +35,7 @@ def run():
 def test():
     tests = unittest.TestLoader().discover("apps/", pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
+    db.create_all()
     if result.wasSuccessful():
         return 0
     return 1

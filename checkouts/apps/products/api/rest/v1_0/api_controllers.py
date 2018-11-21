@@ -16,6 +16,6 @@ class ProductAPIController(Resource):
     def get(self):
         serializer_class = self.serializer()
         objects = self.get_objects()
-        data = serializer_class.dump(objects, many=True)
+        data = serializer_class.dump(objects, many=True).data
         return data, 200
 
