@@ -7,14 +7,8 @@ from apps.pricing_rules.base_rules import PricingRule
 
 class FixedAmountDiscount(PricingRule):
 
-    def is_applicable_by_target_type(self, target):
-        pass
-
-    def is_applicable_by_quantity(self, quantity):
-        pass
-
-    def is_applicable_to(self, checkout):
-        pass
-
-    def apply_to_price_checkout(self, checkout):
-        pass
+    def apply_to_price_purchase(self, purchase):
+        if self.is_applicable_to_purchase(purchase=purchase):
+            discounted = purchase.price - self.value
+            return discounted if discounted >= 0 else 0
+        return purchase.price

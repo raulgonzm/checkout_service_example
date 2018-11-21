@@ -39,7 +39,7 @@ class PricingRuleTwoForOneTestCase(unittest.TestCase):
 
     def test_is_applicable_by_quantity_greater_than(self):
         pricing_rule = TwoForOneDiscount(config=mocks.PRICING_RULE_TWO_FOR_ONE_ALL)
-        self.purchase_item.quantity = 4
+        self.purchase_item.quantity = 3
         self.assertTrue(pricing_rule.is_applicable_by_quantity(quantity=self.purchase_item.quantity))
 
     def test_is_applicable_by_quantity_less_than(self):
@@ -84,8 +84,7 @@ class PricingRuleTwoForOneTestCase(unittest.TestCase):
         self.purchase_item.quantity = 2
         self.assertEqual(
             pricing_rule.apply_to_price_purchase(purchase=self.purchase_item),
-            1
-            * self.product.price
+            1 * self.product.price
         )
         self.purchase_item.quantity = 3
         self.assertEqual(

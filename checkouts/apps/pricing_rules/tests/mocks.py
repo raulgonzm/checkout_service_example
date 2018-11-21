@@ -22,3 +22,21 @@ PRICING_RULE_TWO_FOR_ONE_VOUCHER = DiscountRuleConfig(
     prerequisite_quantity=2,
     entitled_quantity=1
 )
+
+PRICING_RULE_FIXED_AMOUNT_ALL = DiscountRuleConfig(
+    title="Fixed Amount",
+    target_type=ALL_TARGET_TYPE,
+    value_type="fixed_amount",
+    value=5,
+    prerequisite_quantity=0,
+    entitled_quantity=1
+)
+
+PRICING_RULE_FIXED_AMOUNT_VOUCHER = DiscountRuleConfig(
+    title="Fixed Amount",
+    target_type="VOUCHER",
+    value_type="fixed_amount",
+    value=5,
+    prerequisite_quantity=0,
+    entitled_quantity=1
+)
