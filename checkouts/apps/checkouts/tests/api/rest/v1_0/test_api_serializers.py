@@ -41,3 +41,4 @@ class CheckoutAPISerializersTestCase(unittest.TestCase):
         self.assertEqual(result.data['price'], str(round(self.checkout.price, 2)))
         self.assertEqual(result.data['discount'], str(round(self.checkout.discount, 2)))
         self.assertEqual(result.data['total'], str(round(self.checkout.total, 2)))
+        self.assertIn("purchases", result.data)
