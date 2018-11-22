@@ -5,6 +5,7 @@ from decimal import Decimal
 # Third-Party imports
 # Project Imports
 from apps.checkouts.tests.mocks import CheckoutFactory
+from apps.pricing_rules.services import get_current_discounts
 from apps.products.tests.mocks import ProductFactory
 from apps.purchase_items.tests.mocks import PurchaseItemFactory
 
@@ -30,6 +31,16 @@ class CheckoutModelsTestCase(unittest.TestCase):
             purchases.append(purchase_item)
         return products, checkout, purchases
 
+    def calc_discount_price(self, checkout):
+        current_discounts = get_current_discounts()
+        total_price = Decimal(0.0)
+        for item in checkout.purchases:
+            discounted = [item.price]
+            for discount in current_discounts:
+                discounted.append(discount.apply_to_price_purchase(purchase=item))
+            total_price += min(discounted)
+        return total_price
+
     def calc_checkout_price(self, checkout):
         total_price = Decimal(0.0)
         for item in checkout.purchases:
@@ -44,28 +55,29 @@ class CheckoutModelsTestCase(unittest.TestCase):
 
     def test_calc_price_empty_purchase(self):
         empty_checkout = CheckoutFactory()
-        checkout_price = empty_checkout.calc_price()
+        checkout_price = empty_checkout.discounted_price()
         self.assertIsInstance(checkout_price, Decimal)
         self.assertEqual(checkout_price, 0)
 
     def test_calc_price_only_one_product(self):
         products, checkout, puchases = self.set_up_test_data_env(num_products=1)
-        checkout_price = checkout.calc_price()
+        checkout_price = checkout.discounted_price()
         self.assertIsInstance(checkout_price, Decimal)
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
             checkout_price,
-            products[0].price * puchases[0].quantity
+            self.calc_discount_price(checkout=checkout)
         )
 
     def test_calc_price_multiple_products(self):
         products, checkout, puchases = self.set_up_test_data_env(num_products=10)
-        checkout_price = checkout.calc_price()
+        checkout_price = checkout.discounted_price\
+            ()
         self.assertIsInstance(checkout_price, Decimal)
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
             checkout_price,
-            self.calc_checkout_price(checkout=checkout)
+            self.calc_discount_price(checkout=checkout)
         )
 
     def test_total_property(self):
@@ -75,6 +87,16 @@ class CheckoutModelsTestCase(unittest.TestCase):
         self.assertNotEqual(checkout_total, 0)
         self.assertEqual(
             checkout_total,
+            self.calc_discount_price(checkout=checkout)
+        )
+
+    def test_price(self):
+        products, checkout, puchases = self.set_up_test_data_env(num_products=5)
+        checkout_price = checkout.price
+        self.assertIsInstance(checkout_price, Decimal)
+        self.assertNotEqual(checkout_price, 0)
+        self.assertEqual(
+            checkout_price,
             self.calc_checkout_price(checkout=checkout)
         )
 

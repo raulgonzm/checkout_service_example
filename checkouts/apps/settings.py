@@ -4,7 +4,6 @@ import os
 # Third-Party imports
 # Project imports
 
-
 base_dir = os.path.abspath(os.path.dirname(__file__))
 
 
