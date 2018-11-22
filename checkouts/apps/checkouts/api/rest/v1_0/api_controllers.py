@@ -8,6 +8,7 @@ from apps.checkouts.api.rest.v1_0 import api_serializers
 from apps.checkouts import services
 from apps.checkouts import checkouts_dao
 from apps.checkouts.api.rest.v1_0 import api_decorators
+from apps.checkouts.api.rest.v1_0 import api_serializers_validators
 
 
 class CheckoutCreationAPIController(Resource):
@@ -18,8 +19,7 @@ class CheckoutCreationAPIController(Resource):
     def post(self):
         request_serializer_class = self.request_serializer(many=True, strict=True)
         cart = request_serializer_class.load(request.json).data
-        if len(cart) == 0:
-            raise TypeError()
+        api_serializers_validators.validate_cart(cart=cart)
         checkout_instance = services.create_new_checkout(cart=cart)
         response_serializer_class = self.response_serializer()
         response_data = response_serializer_class.dump(checkout_instance).data
