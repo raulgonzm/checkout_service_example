@@ -41,5 +41,9 @@ class Checkout(db.Model):
     def total(self):
         return self.discounted_price()
 
+    @property
+    def discount(self):
+        return self.price - self.total
+
     def scan(self, purchase_item):
         self.purchases.append(purchase_item)
