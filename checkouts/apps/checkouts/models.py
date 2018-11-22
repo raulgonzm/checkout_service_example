@@ -20,13 +20,13 @@ class Checkout(db.Model):
     def __repr__(self):
         return f"<Checkout-{self.id}>"
 
-    def _calc_discounted_price(self, item):
+    def _calc_discounted_prices(self, item):
         return [discount.apply_to_price_purchase(purchase=item) for discount in get_current_discounts()]
 
     def discounted_price(self):
         total_price = Decimal(0.0)
         for item in self.purchases:
-            discounted = [item.price] + self._calc_discounted_price(item=item)
+            discounted = [item.price] + self._calc_discounted_prices(item=item)
             total_price += min(discounted)
         return total_price
 
