@@ -12,6 +12,7 @@ from apps.products import product_dao
 from apps.products.tests.mocks import ProductFactory
 from apps.purchase_items.tests.mocks import PurchaseItemFactory
 from apps.urls import Router
+from apps.checkouts import checkouts_dao
 
 
 class CheckoutAPITestCase(unittest.TestCase):
@@ -36,8 +37,7 @@ class CheckoutAPITestCase(unittest.TestCase):
         )
         self.product.purchases.append(self.purchase_item)
         self.checkout.purchases.append(self.purchase_item)
-        self.product = product_dao.insert_product(self.product
-                                                  )
+        self.product = product_dao.insert_product(self.product)
 
     def tearDown(self):
         db.session.remove()
@@ -98,3 +98,73 @@ class CheckoutAPITestCase(unittest.TestCase):
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 400)
+
+    def test_create_checkout_product_id_type_error(self):
+        data = [
+            {
+                "product": "a",
+                "quantity": 1400
+            },
+        ]
+        response = self.client.post(
+            CheckoutAPIUrls.checkout_create,
+            data=json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_checkout_product_quantity_type_error(self):
+        data = [
+            {
+                "product": self.product.id,
+                "quantity": "a"
+            },
+        ]
+        response = self.client.post(
+            CheckoutAPIUrls.checkout_create,
+            data=json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_checkout_empty_request(self):
+        data = [{}]
+        response = self.client.post(
+            CheckoutAPIUrls.checkout_create,
+            data=json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_create_checkout_empty_list_request(self):
+        data = []
+        response = self.client.post(
+            CheckoutAPIUrls.checkout_create,
+            data=json.dumps(data),
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 400)
+
+    def test_detail_checkout(self):
+        self.checkout = checkouts_dao.insert_checkout(checkout=self.checkout)
+        response = self.client.get(
+            f"/api/rest/v1_0/checkouts/{self.checkout.id}/",
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 200)
+
+    def test_detail_checkout_unknown_checkout(self):
+        self.checkout = checkouts_dao.insert_checkout(checkout=self.checkout)
+        response = self.client.get(
+            f"/api/rest/v1_0/checkouts/99999/",
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404)
+
+    def test_detail_checkout_unknown_checkout_type_error(self):
+        self.checkout = checkouts_dao.insert_checkout(checkout=self.checkout)
+        response = self.client.get(
+            f"/api/rest/v1_0/checkouts/a/",
+            content_type='application/json'
+        )
+        self.assertEqual(response.status_code, 404)

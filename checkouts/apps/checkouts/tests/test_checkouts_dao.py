@@ -4,6 +4,7 @@
 from flask_testing import TestCase
 # Project Imports
 from apps import create_app, db
+from apps.checkouts.exceptions import CheckoutDoesNotExist
 from apps.checkouts.tests.mocks import CheckoutFactory
 from apps.checkouts import checkouts_dao
 
@@ -35,3 +36,7 @@ class CheckoutDAOTestCase(TestCase):
         self.assertIsInstance(new_checkout.id, int)
         checkout_returned = checkouts_dao.get_checkout_by_id(new_checkout.id)
         self.assertEqual(new_checkout, checkout_returned)
+
+    def test_get_checkout_by_id_unknown_checkout(self):
+        with self.assertRaises(CheckoutDoesNotExist):
+            checkouts_dao.get_checkout_by_id(99999)

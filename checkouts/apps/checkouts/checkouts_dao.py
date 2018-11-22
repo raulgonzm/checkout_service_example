@@ -4,6 +4,7 @@
 # Project Imports
 from apps import db
 from apps.checkouts.models import Checkout
+from apps.checkouts.exceptions import CheckoutDoesNotExist
 
 
 def insert_checkout(checkout):
@@ -13,4 +14,7 @@ def insert_checkout(checkout):
 
 
 def get_checkout_by_id(checkout_id):
-    return Checkout.query.get(checkout_id)
+    checkout = Checkout.query.get(checkout_id)
+    if checkout:
+        return checkout
+    raise CheckoutDoesNotExist(checkout_id=checkout_id)
