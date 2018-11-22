@@ -30,6 +30,7 @@ class Checkout(db.Model):
             total_price += min(discounted)
         return total_price
 
+    @property
     def price(self):
         total_price = Decimal(0.0)
         for item in self.purchases:

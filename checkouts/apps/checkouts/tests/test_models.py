@@ -92,7 +92,7 @@ class CheckoutModelsTestCase(unittest.TestCase):
 
     def test_price(self):
         products, checkout, puchases = self.set_up_test_data_env(num_products=5)
-        checkout_price = checkout.price()
+        checkout_price = checkout.price
         self.assertIsInstance(checkout_price, Decimal)
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
