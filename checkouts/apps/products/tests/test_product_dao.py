@@ -4,6 +4,7 @@
 from flask_testing import TestCase
 # Project Imports
 from apps import create_app, db
+from apps.products.exceptions import ProductDoesNotExist
 from apps.products.models import Product
 from apps.products.tests.mocks import ProductFactory
 from apps.products import product_dao
@@ -37,4 +38,15 @@ class ProductDAOTestCase(TestCase):
         self.assertIsInstance(new_product.id, int)
         products = product_dao.get_all_products()
         self.assertEqual(len(products), 2)
+
+    def test_get_product_by_id(self):
+        new_product = ProductFactory()
+        new_product = product_dao.insert_product(new_product)
+        self.assertIsInstance(new_product.id, int)
+        product_returned = product_dao.get_product_by_id(new_product.id)
+        self.assertEqual(new_product, product_returned)
+
+    def test_get_product_by_id_unknown_product(self):
+        with self.assertRaises(ProductDoesNotExist):
+            product_dao.get_product_by_id(9999)
 

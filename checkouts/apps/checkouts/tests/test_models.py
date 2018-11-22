@@ -100,6 +100,16 @@ class CheckoutModelsTestCase(unittest.TestCase):
             self.calc_checkout_price(checkout=checkout)
         )
 
+    def test_discount(self):
+        products, checkout, puchases = self.set_up_test_data_env(num_products=5)
+        discount = checkout.discount
+        self.assertIsInstance(discount, Decimal)
+        self.assertNotEqual(discount, 0)
+        self.assertEqual(
+            discount,
+            checkout.price - checkout.total
+        )
+
     def test_scan(self):
         self.assertEqual(len(self.checkout.purchases), 0)
         product_one = ProductFactory()
