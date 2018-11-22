@@ -189,7 +189,16 @@ Now we have only a single discount applied to checkouts.
 Running testing
 ==========================================
 
+- Run tests
 ``
 root@5f77ebc363c8:/checkouts# python manage.py test
 ``
+
+- Run tests with Coverage
+``
+root@5f77ebc363c8:/checkouts# coverage run manage.py test
+root@5f77ebc363c8:/checkouts# coverage report
+``
+
+
 
