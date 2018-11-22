@@ -5,6 +5,7 @@ from decimal import Decimal
 # Third-Party imports
 # Project Imports
 from apps.checkouts.tests.mocks import CheckoutFactory
+from apps.pricing_rules.services import get_current_discounts
 from apps.products.tests.mocks import ProductFactory
 from apps.purchase_items.tests.mocks import PurchaseItemFactory
 
@@ -31,9 +32,13 @@ class CheckoutModelsTestCase(unittest.TestCase):
         return products, checkout, purchases
 
     def calc_checkout_price(self, checkout):
+        current_discounts = get_current_discounts()
         total_price = Decimal(0.0)
         for item in checkout.purchases:
-            total_price += item.price
+            discounted = [item.price]
+            for discount in current_discounts:
+                discounted.append(discount.apply_to_price_purchase(purchase=item))
+            total_price += min(discounted)
         return total_price
 
     def test_repr_method(self):
@@ -55,7 +60,7 @@ class CheckoutModelsTestCase(unittest.TestCase):
         self.assertNotEqual(checkout_price, 0)
         self.assertEqual(
             checkout_price,
-            products[0].price * puchases[0].quantity
+            self.calc_checkout_price(checkout=checkout)
         )
 
     def test_calc_price_multiple_products(self):

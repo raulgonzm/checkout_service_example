@@ -5,6 +5,7 @@ from decimal import Decimal
 from sqlalchemy.sql import func
 # Project Imports
 from apps import db
+from apps.pricing_rules.services import get_current_discounts
 from apps.purchase_items.models import PurchaseItem
 
 
@@ -19,10 +20,14 @@ class Checkout(db.Model):
     def __repr__(self):
         return f"<Checkout-{self.id}>"
 
+    def _calc_price_with_discounts(self, item):
+        return [discount.apply_to_price_purchase(purchase=item) for discount in get_current_discounts()]
+
     def calc_price(self):
         total_price = Decimal(0.0)
         for item in self.purchases:
-            total_price += item.price
+            discounted = [item.price] + self._calc_price_with_discounts(item=item)
+            total_price += min(discounted)
         return total_price
 
     @property

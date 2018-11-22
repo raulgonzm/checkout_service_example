@@ -34,3 +34,8 @@ class PricingRuleServicesTestCase(unittest.TestCase):
         self.assertEqual(len(current_discount), 2)
         self.assertIsInstance(current_discount[0], TwoForOneDiscount)
         self.assertIsInstance(current_discount[1], PercentageDiscount)
+
+    def test_get_current_discounts_without_discounts(self):
+        current_discount = services.get_current_discounts(discount_rules=[])
+        self.assertIsInstance(current_discount, list)
+        self.assertEqual(len(current_discount), 0)

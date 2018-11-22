@@ -12,9 +12,7 @@ def instance_discount_from_module(module, class_name, configuration):
     return class_(config=configuration)
 
 
-def get_current_discounts(discount_rules=None):
-    if not discount_rules:
-        discount_rules = CURRENT_DISCOUNTS_RULES
+def get_current_discounts(discount_rules=CURRENT_DISCOUNTS_RULES):
     current_discounts = []
     for discount_config_rule in discount_rules:
         instance = instance_discount_from_module(
