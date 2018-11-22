@@ -10,7 +10,7 @@ from apps.products.tests.mocks import ProductFactory
 from apps.urls import Router
 
 
-class ProductSerializersTestCase(unittest.TestCase):
+class ProductAPITestCase(unittest.TestCase):
 
     def create_app(self):
         self.app = create_app(env="test")

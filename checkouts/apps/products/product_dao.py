@@ -4,6 +4,7 @@
 # Project Imports
 from apps import db
 from apps.products.models import Product
+from apps.products.exceptions import ProductDoesNotExist
 
 
 def insert_product(product):
@@ -17,4 +18,7 @@ def get_all_products():
 
 
 def get_product_by_id(product_id):
-    return Product.query.get(product_id)
+    product = Product.query.get(product_id)
+    if product:
+        return product
+    raise ProductDoesNotExist(product_id=product_id)
