@@ -11,9 +11,6 @@ from apps.pricing_rules.two_for_one_discount import TwoForOneDiscount
 
 class PricingRuleServicesTestCase(unittest.TestCase):
 
-    def setUp(self):
-        pass
-
     def test_instance_discount_from_module(self):
         self.assertIsInstance(
             services.instance_discount_from_module(
