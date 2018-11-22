@@ -19,3 +19,7 @@ def scan_new_purchase_item(checkout, product, quantity):
     )
     checkout.scan(purchase_item=new_purchase_item)
     return checkout
+
+
+def calc_checkout_total_price(checkout):
+    pass
