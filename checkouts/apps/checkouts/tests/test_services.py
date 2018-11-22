@@ -6,7 +6,6 @@ from flask_testing import TestCase
 # Project Imports
 from apps.checkouts.tests.mocks import CheckoutFactory
 from apps.products.tests.mocks import ProductFactory
-from apps.purchase_items.models import PurchaseItem
 from apps.checkouts import services
 from apps.products import product_dao
 from apps import create_app, db
@@ -32,16 +31,6 @@ class CheckoutServicesTestCase(TestCase):
 
     def tearDown(self):
         self.checkout.purchases.clear()
-
-    def test_create_new_purchase_item(self):
-        quantity = factory.Faker("pyint")
-        new_purchase_item = services._create_new_purchase_item(
-            product=self.product,
-            quantity=quantity
-        )
-        self.assertIsInstance(new_purchase_item, PurchaseItem)
-        self.assertEqual(new_purchase_item.product, self.product)
-        self.assertEqual(new_purchase_item.quantity, quantity)
 
     def test_scan_new_purchase_item(self):
         quantity = factory.Faker("pyint")

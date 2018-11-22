@@ -6,22 +6,15 @@ import uuid
 from apps.checkouts.models import Checkout
 from apps.checkouts import checkouts_dao
 from apps.products import product_dao
-from apps.purchase_items.models import PurchaseItem
+from apps.purchase_items import services as purchase_item_services
 
 
 def generate_new_checkout_number():
     return str(uuid.uuid4())
 
 
-def _create_new_purchase_item(product, quantity):
-    return PurchaseItem(
-        product=product,
-        quantity=quantity
-    )
-
-
 def scan_new_purchase_item(checkout, product, quantity):
-    new_purchase_item = _create_new_purchase_item(
+    new_purchase_item = purchase_item_services.create_new_purchase_item(
         product=product,
         quantity=quantity
     )
