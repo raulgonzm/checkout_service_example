@@ -1,0 +1,87 @@
+{
+	"info": {
+		"_postman_id": "893da5dd-dd84-4ffc-aaef-88426c586d58",
+		"name": "Cabify_code_challenge",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "Get Products",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{server}}/api/rest/v1_0/products/",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"rest",
+						"v1_0",
+						"products",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Create Checkout",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-Type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\n\t{\n\t\t\"product\": 1,\n\t\t\"quantity\": 2\n\t},\n\t{\n\t\t\"product\": 2,\n\t\t\"quantity\": 4\n\t}\n]"
+				},
+				"url": {
+					"raw": "http://{{server}}/api/rest/v1_0/checkouts/",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"rest",
+						"v1_0",
+						"checkouts",
+						""
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Checkout",
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "http://{{server}}/api/rest/v1_0/checkouts/1/",
+					"protocol": "http",
+					"host": [
+						"{{server}}"
+					],
+					"path": [
+						"api",
+						"rest",
+						"v1_0",
+						"checkouts",
+						"1",
+						""
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
