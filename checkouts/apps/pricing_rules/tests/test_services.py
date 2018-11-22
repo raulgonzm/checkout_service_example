@@ -5,6 +5,7 @@ import unittest
 # Project Imports
 from apps.pricing_rules import services
 from apps.pricing_rules.percentage_discount import PercentageDiscount
+from apps.pricing_rules.settings import PRICING_RULE_BULK_PURCHASE_ALL, PRICING_RULE_TWO_FOR_ONE_ALL
 from apps.pricing_rules.two_for_one_discount import TwoForOneDiscount
 
 
@@ -12,6 +13,24 @@ class PricingRuleServicesTestCase(unittest.TestCase):
 
     def setUp(self):
         pass
+
+    def test_instance_discount_from_module(self):
+        self.assertIsInstance(
+            services.instance_discount_from_module(
+                module="apps.pricing_rules.percentage_discount",
+                class_name="PercentageDiscount",
+                configuration=PRICING_RULE_BULK_PURCHASE_ALL,
+            ),
+            PercentageDiscount
+        )
+        self.assertIsInstance(
+            services.instance_discount_from_module(
+                module="apps.pricing_rules.two_for_one_discount",
+                class_name="TwoForOneDiscount",
+                configuration=PRICING_RULE_TWO_FOR_ONE_ALL,
+            ),
+            TwoForOneDiscount
+        )
 
     def test_get_current_discounts(self):
         current_discount = services.get_current_discounts()

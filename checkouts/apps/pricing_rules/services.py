@@ -6,11 +6,21 @@ import importlib
 from apps.pricing_rules.settings import CURRENT_DISCOUNTS_RULES
 
 
-def get_current_discounts():
+def instance_discount_from_module(module, class_name, configuration):
+    module = importlib.import_module(module)
+    class_ = getattr(module, class_name)
+    return class_(config=configuration)
+
+
+def get_current_discounts(discount_rules=None):
+    if not discount_rules:
+        discount_rules = CURRENT_DISCOUNTS_RULES
     current_discounts = []
-    for discount_config_rule in CURRENT_DISCOUNTS_RULES:
-        module = importlib.import_module(discount_config_rule['module'])
-        class_ = getattr(module, discount_config_rule['class'])
-        instance = class_(config=discount_config_rule['configuration'])
+    for discount_config_rule in discount_rules:
+        instance = instance_discount_from_module(
+            module=discount_config_rule['module'],
+            class_name=discount_config_rule['class'],
+            configuration=discount_config_rule['configuration']
+        )
         current_discounts.append(instance)
     return current_discounts
