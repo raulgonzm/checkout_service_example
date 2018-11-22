@@ -38,3 +38,10 @@ class ProductDAOTestCase(TestCase):
         products = product_dao.get_all_products()
         self.assertEqual(len(products), 2)
 
+    def test_get_product_by_id(self):
+        new_product = ProductFactory()
+        new_product = product_dao.insert_product(new_product)
+        self.assertIsInstance(new_product.id, int)
+        product_returned = product_dao.get_product_by_id(new_product.id)
+        self.assertEqual(new_product, product_returned)
+
