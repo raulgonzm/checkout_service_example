@@ -43,7 +43,7 @@ Checkout Service API
 ==========================================
 
 You have a Postman collection and a Postman environment inside the project. This collection has a complete
-collection of Checkout service API endpoints.
+aggregation of Checkout service API endpoints.
 
 Principally you have three endpoints:
 
@@ -52,7 +52,7 @@ Principally you have three endpoints:
 GET /api/rest/v1_0/products/
 ``
 
-An example of response could be:
+An example of response would be:
 
 ``
 [
@@ -93,7 +93,7 @@ The request body should be something like:
 ]
 ``
 
-An example of response could be:
+An example of response would be:
 ``
 {
     "checkout_number": "067d6009-cfc1-4048-ba8d-07954577faa2",
@@ -132,7 +132,8 @@ GET /api/rest/v1_0/checkouts/<checkout_id>/
 Pricing Rules
 ==========================================
 
-There are two pricing rules configured by default right now. You can check this in */apps/pricing_rules/settings.py*
+There are two pricing rules configured by default right now. You can check this inside of
+*/apps/pricing_rules/settings.py* file.
 
 ``
 CURRENT_DISCOUNTS_RULES = [
@@ -149,10 +150,10 @@ CURRENT_DISCOUNTS_RULES = [
 ]
 ``
 
-We have two discounts applied: a two for one discount and a percentage discount. Both have their own configuration
-inside PRICING_RULE_TWO_FOR_ONE_ALL and PRICING_RULE_BULK_PURCHASE_ALL configurations.
+We have two discounts applied: a *"two for one"* discount and a percentage discount. Both have their own configuration
+inside PRICING_RULE_TWO_FOR_ONE_ALL and PRICING_RULE_BULK_PURCHASE_ALL configuration vars.
 
-We can review one of them configurations:
+We can check one of them these configurations:
 
 ``
 PRICING_RULE_TWO_FOR_ONE_ALL = DiscountRuleConfig(
@@ -165,8 +166,8 @@ PRICING_RULE_TWO_FOR_ONE_ALL = DiscountRuleConfig(
 )
 ``
 
-This say us that the discount is a DiscountRuleConfig for all products, "percentage" is his type and we have a
-quantity prerequisite with two units.
+This show us that the discount is a DiscountRuleConfig for all products (ALL_TARGET_TYPE), "percentage" is his
+type and we have a quantity prerequisite with two units.
 
 You can change this configuration customizing the target (setting up a product code inside. i.e. "VOUCHE") or
 customizing the quantity prerequisite.
@@ -189,12 +190,12 @@ Now we have only a single discount applied to checkouts.
 Running testing
 ==========================================
 
-- Run tests
+- To run tests you can type
 ``
 root@5f77ebc363c8:/checkouts# python manage.py test
 ``
 
-- Run tests with Coverage
+- If you want to run tests with coverage
 ``
 root@5f77ebc363c8:/checkouts# coverage run manage.py test
 root@5f77ebc363c8:/checkouts# coverage report
