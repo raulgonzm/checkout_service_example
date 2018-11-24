@@ -232,6 +232,7 @@ Also, you can create new Discount rules overriding PricingRule abstract class an
 
 .. code-block::
 ::
+
     # Python imports
     # Flask imports
     # Third-Party imports
