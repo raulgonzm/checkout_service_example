@@ -30,4 +30,4 @@ class PricingRule(metaclass=ABCMeta):
 
     @abstractmethod
     def apply_to_price_purchase(self, purchase):
-        pass
+        "Not implemented. It is an abstract method"
