@@ -54,7 +54,7 @@ class CheckoutServicesTestCase(TestCase):
     def test_scan_checkout_cart(self):
         self.assertEqual(len(self.checkout.purchases), 0)
         self.product = product_dao.insert_product(product=self.product)
-        cart = [{'quantity': 2, 'product': self.product.id}, ]
+        cart = [{'quantity': 2, 'product': self.product.code}, ]
         self.checkout = services.scan_checkout_cart(checkout=self.checkout, cart=cart)
         self.assertEqual(len(self.checkout.purchases), 1)
         self.assertEqual(self.checkout.purchases[0].checkout, self.checkout)
@@ -63,7 +63,7 @@ class CheckoutServicesTestCase(TestCase):
 
     def test_create_new_checkout(self):
         self.product = product_dao.insert_product(product=self.product)
-        cart = [{'quantity': 2, 'product': self.product.id}, ]
+        cart = [{'quantity': 2, 'product': self.product.code}, ]
         new_checkout = services.create_new_checkout(cart=cart)
         self.assertIsInstance(new_checkout.id, int)
         self.assertEqual(len(new_checkout.purchases), 1)

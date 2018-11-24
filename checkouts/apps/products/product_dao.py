@@ -22,3 +22,10 @@ def get_product_by_id(product_id):
     if product:
         return product
     raise ProductDoesNotExist(product_id=product_id)
+
+
+def get_product_by_code(product_code):
+    product = Product.query.filter_by(code=product_code).first()
+    if product:
+        return product
+    raise ProductDoesNotExist(product_id=product_code)

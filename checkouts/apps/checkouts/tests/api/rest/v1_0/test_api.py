@@ -46,7 +46,7 @@ class CheckoutAPITestCase(unittest.TestCase):
     def test_create_checkout(self):
         data = [
             {
-                "product": self.product.id,
+                "product": self.product.code,
                 "quantity": 1400
             },
         ]

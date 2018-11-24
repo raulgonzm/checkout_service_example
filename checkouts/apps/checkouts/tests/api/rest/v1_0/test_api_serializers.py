@@ -24,13 +24,13 @@ class CheckoutAPISerializersTestCase(unittest.TestCase):
     def test_checkout_create_serialization(self):
         serializer = api_serializers.CheckoutCreateSerializer(many=True)
         data, errors = serializer.load([
-            {'product': 1, 'quantity': 2},
-            {'product': 2, 'quantity': 1},
+            {'product': "1", 'quantity': 2},
+            {'product': "2", 'quantity': 1},
         ])
         self.assertIsInstance(data, list)
-        self.assertEqual(data[0]['product'], 1)
+        self.assertEqual(data[0]['product'], "1")
         self.assertEqual(data[0]['quantity'], 2)
-        self.assertEqual(data[1]['product'], 2)
+        self.assertEqual(data[1]['product'], "2")
         self.assertEqual(data[1]['quantity'], 1)
 
     def test_checkout_detail_serialization(self):
