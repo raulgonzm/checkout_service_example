@@ -40,7 +40,7 @@
 				],
 				"body": {
 					"mode": "raw",
-					"raw": "[\n\t{\n\t\t\"product\": 1,\n\t\t\"quantity\": 2\n\t},\n\t{\n\t\t\"product\": 2,\n\t\t\"quantity\": 4\n\t}\n]"
+					"raw": "[\n\t{\n\t\t\"product\": \"VOUCHER\",\n\t\t\"quantity\": 2\n\t},\n\t{\n\t\t\"product\": \"TSHIRT\",\n\t\t\"quantity\": 4\n\t}\n]"
 				},
 				"url": {
 					"raw": "http://{{server}}/api/rest/v1_0/checkouts/",
@@ -66,7 +66,7 @@
 				"header": [],
 				"body": {},
 				"url": {
-					"raw": "http://{{server}}/api/rest/v1_0/checkouts/1/",
+					"raw": "http://{{server}}/api/rest/v1_0/checkouts/c4d0b30c-419e-4898-a14f-8849fcea3f1d/",
 					"protocol": "http",
 					"host": [
 						"{{server}}"
@@ -76,7 +76,7 @@
 						"rest",
 						"v1_0",
 						"checkouts",
-						"1",
+						"c4d0b30c-419e-4898-a14f-8849fcea3f1d",
 						""
 					]
 				}

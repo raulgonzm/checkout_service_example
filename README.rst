@@ -83,11 +83,11 @@ The request body should be something like:
 ``
 [
 	{
-		"product": 1,
+		"product": "VOUCHER",
 		"quantity": 2
 	},
 	{
-		"product": 2,
+		"product": "TSHIRT",
 		"quantity": 4
 	}
 ]
@@ -126,7 +126,7 @@ An example of response would be:
 
 - Checkout detail
 ``
-GET /api/rest/v1_0/checkouts/<checkout_id>/
+GET /api/rest/v1_0/checkouts/<checkout_number>/
 ``
 
 Pricing Rules

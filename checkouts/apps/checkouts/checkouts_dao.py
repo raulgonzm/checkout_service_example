@@ -18,3 +18,10 @@ def get_checkout_by_id(checkout_id):
     if checkout:
         return checkout
     raise CheckoutDoesNotExist(checkout_id=checkout_id)
+
+
+def get_checkout_by_checkout_number(checkout_number):
+    checkout = Checkout.query.filter_by(checkout_number=checkout_number).first()
+    if checkout:
+        return checkout
+    raise CheckoutDoesNotExist(checkout_id=checkout_number)

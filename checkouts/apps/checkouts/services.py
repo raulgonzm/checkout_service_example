@@ -24,7 +24,7 @@ def scan_new_purchase_item(checkout, product, quantity):
 
 def scan_checkout_cart(checkout, cart):
     for item in cart:
-        product = product_dao.get_product_by_id(item['product'])
+        product = product_dao.get_product_by_code(product_code=item['product'])
         scan_new_purchase_item(checkout=checkout, product=product, quantity=item['quantity'])
     return checkout
 

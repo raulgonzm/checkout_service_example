@@ -7,7 +7,7 @@ from apps.purchase_items.api.rest.v1_0.api_serializers import PurchaseItemSerial
 
 
 class CheckoutCreateSerializer(Schema):
-    product = fields.Integer(load_only=True, allow_none=False)
+    product = fields.String(load_only=True, allow_none=False)
     quantity = fields.Integer(load_only=True, allow_none=False)
 
 
