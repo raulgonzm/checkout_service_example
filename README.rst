@@ -8,36 +8,44 @@ Building the development infrastructure
 - Replace the env variable with your local code path within *infrastructure/build_env.sh* file.
 
 .. code-block:: python
-    :linenos:
+::
+
     export BACKEND_SERVICE_CODE=<your-local-path>
 
 - Building Checkout Services. Run Docker build for each service
 
 .. code-block:: python
-    :linenos:
+::
+
     chmod 774 ./infrastructure/build_docker.sh
     ./infrastructure/build_docker.sh
 
 
 - Start Docker containers for each service
 
-``
-chmod 774 ./infrastructure/docker_up.sh
-./infrastructure/docker_up.sh
-``
+.. code-block:: python
+::
+
+    chmod 774 ./infrastructure/docker_up.sh
+    ./infrastructure/docker_up.sh
+
 
 - SSH connect with the container
 
-``
-chmod 774 ./infrastructure/docker_ssh.sh
-./infrastructure/docker_ssh.sh
-``
+.. code-block:: python
+::
+
+    chmod 774 ./infrastructure/docker_ssh.sh
+    ./infrastructure/docker_ssh.sh
+
 
 - Loading Product fixture (Execute one at a time)
 
-``
-root@5f77ebc363c8:/checkouts# python manage.py load_fixtures
-``
+.. code-block:: python
+::
+
+    root@5f77ebc363c8:/checkouts# python manage.py load_fixtures
+
 
 - Right now you got the checkout service running in your machine
 
