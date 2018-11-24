@@ -1,3 +1,13 @@
+.. image:: https://img.shields.io/badge/build-passed-green.svg
+   :target: https://img.shields.io/
+   :alt: Build Status
+.. image:: https://img.shields.io/badge/coverage-100%25-green.svg
+   :target: https://img.shields.io/
+   :alt: Build Status
+.. image:: https://img.shields.io/badge/python-3.4%20%7C%203.5%20%7C%203.6%20%7C%203.7-blue.svg
+   :target: https://img.shields.io/
+   :alt: Build Status
+
 =========================================================
 Code Challenge. Checkout Service
 =========================================================
