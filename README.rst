@@ -5,7 +5,7 @@ Code Challenge. Checkout Service
 Building the development infrastructure
 ==========================================
 
-- Replace the env variable with your local code path within *infrastructure/build_env.sh* file.
+- Replace the env variable within your local code path in *infrastructure/build_env.sh* file.
 
 .. code-block::
 ::
@@ -67,7 +67,6 @@ Principally you have three endpoints:
 
     An example of response would be:
 
-    ``
     [
         {
             "name": "Cabify Mug",
