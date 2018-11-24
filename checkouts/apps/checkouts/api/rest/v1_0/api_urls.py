@@ -8,7 +8,7 @@ from apps.checkouts.api.rest.v1_0 import api_controllers
 class CheckoutAPIUrls:
 
     checkout_create = '/api/rest/v1_0/checkouts/'
-    checkout_detail = '/api/rest/v1_0/checkouts/<string:checkout_id>/'
+    checkout_detail = '/api/rest/v1_0/checkouts/<string:checkout_number>/'
 
     @classmethod
     def init_checkout_api_urls(cls, api):

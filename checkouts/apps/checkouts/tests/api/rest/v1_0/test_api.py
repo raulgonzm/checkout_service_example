@@ -148,7 +148,7 @@ class CheckoutAPITestCase(unittest.TestCase):
     def test_detail_checkout(self):
         self.checkout = checkouts_dao.insert_checkout(checkout=self.checkout)
         response = self.client.get(
-            f"/api/rest/v1_0/checkouts/{self.checkout.id}/",
+            f"/api/rest/v1_0/checkouts/{self.checkout.checkout_number}/",
             content_type='application/json'
         )
         self.assertEqual(response.status_code, 200)

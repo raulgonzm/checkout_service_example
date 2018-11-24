@@ -40,3 +40,14 @@ class CheckoutDAOTestCase(TestCase):
     def test_get_checkout_by_id_unknown_checkout(self):
         with self.assertRaises(CheckoutDoesNotExist):
             checkouts_dao.get_checkout_by_id(99999)
+
+    def test_get_checkout_by_checkout_number(self):
+        new_checkout = CheckoutFactory()
+        new_checkout = checkouts_dao.insert_checkout(new_checkout)
+        self.assertIsInstance(new_checkout.id, int)
+        checkout_returned = checkouts_dao.get_checkout_by_checkout_number(new_checkout.checkout_number)
+        self.assertEqual(new_checkout, checkout_returned)
+
+    def test_get_checkout_by_checkout_number_unknown_checkout(self):
+        with self.assertRaises(CheckoutDoesNotExist):
+            checkouts_dao.get_checkout_by_checkout_number("99999")

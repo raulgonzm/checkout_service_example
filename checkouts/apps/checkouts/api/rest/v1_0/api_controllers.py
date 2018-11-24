@@ -29,13 +29,13 @@ class CheckoutCreationAPIController(Resource):
 class CheckoutDetailAPIController(Resource):
     serializer = api_serializers.CheckoutDetailSerializer
 
-    def get_objects(self, checkout_id):
-        return checkouts_dao.get_checkout_by_id(checkout_id=checkout_id)
+    def get_objects(self, checkout_number):
+        return checkouts_dao.get_checkout_by_checkout_number(checkout_number=checkout_number)
 
     @api_decorators.error_response_handler
-    def get(self, checkout_id):
+    def get(self, checkout_number):
         serializer_class = self.serializer()
-        object = self.get_objects(checkout_id=checkout_id)
+        object = self.get_objects(checkout_number=checkout_number)
         data = serializer_class.dump(object).data
         return data, 200
 
