@@ -223,12 +223,14 @@ Running testing
 - To run tests you can type
 .. code-block::
 ::
+
     root@5f77ebc363c8:/checkouts# python manage.py test
 
 
 - If you want to run tests with coverage
 .. code-block::
 ::
+
     root@5f77ebc363c8:/checkouts# coverage run manage.py test
     root@5f77ebc363c8:/checkouts# coverage report
 
