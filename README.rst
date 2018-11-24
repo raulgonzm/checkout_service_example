@@ -227,7 +227,7 @@ Also you can configure the current discounts customizing the CURRENT_DISCOUNTS_R
 Now we have only a single discount applied to checkouts.
 
 
-Also, you can create new Discount rules overriding PricingRule abstract class and implementing the
+Also, you can create new Discount Rules overriding PricingRule abstract class and implementing the
 *apply_to_price_purchase* method.
 
 .. code-block::
