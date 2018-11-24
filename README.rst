@@ -7,14 +7,16 @@ Building the development infrastructure
 
 - Replace the env variable with your local code path within *infrastructure/build_env.sh* file.
 
-``export BACKEND_SERVICE_CODE=<your-local-path>``
+.. code-block:: python
+    :linenos:
+    export BACKEND_SERVICE_CODE=<your-local-path>
 
 - Building Checkout Services. Run Docker build for each service
 
 .. code-block:: python
     :linenos:
-chmod 774 ./infrastructure/build_docker.sh
-./infrastructure/build_docker.sh
+    chmod 774 ./infrastructure/build_docker.sh
+    ./infrastructure/build_docker.sh
 
 
 - Start Docker containers for each service
