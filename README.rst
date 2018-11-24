@@ -11,10 +11,11 @@ Building the development infrastructure
 
 - Building Checkout Services. Run Docker build for each service
 
-``
+.. code-block:: python
+    :linenos:
 chmod 774 ./infrastructure/build_docker.sh
 ./infrastructure/build_docker.sh
-``
+
 
 - Start Docker containers for each service
 
