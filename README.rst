@@ -15,7 +15,7 @@ Code Challenge. Checkout Service
 Building the development infrastructure
 ==========================================
 
-- Replace the env variable within your local code path in *infrastructure/build_env.sh* file.
+- Create a new env variable in your machine with the local code path:
 
 .. code-block::
 ::
