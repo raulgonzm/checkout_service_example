@@ -12,7 +12,6 @@ class CheckoutCreateSerializer(Schema):
 
 
 class CheckoutDetailSerializer(Schema):
-    id = fields.Integer(dump_only=True)
     checkout_number = fields.String(dump_only=True)
     price = fields.Decimal(dump_only=True, places=2, as_string=True)
     discount = fields.Decimal(dump_only=True, places=2, as_string=True)

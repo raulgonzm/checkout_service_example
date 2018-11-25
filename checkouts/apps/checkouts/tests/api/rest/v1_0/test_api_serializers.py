@@ -36,7 +36,7 @@ class CheckoutAPISerializersTestCase(unittest.TestCase):
     def test_checkout_detail_serialization(self):
         serializer_class = api_serializers.CheckoutDetailSerializer()
         result = serializer_class.dump(self.checkout)
-        self.assertEqual(result.data['id'], self.checkout.id)
+        self.assertNotIn('id', result.data)
         self.assertEqual(result.data['checkout_number'], self.checkout.checkout_number)
         self.assertEqual(result.data['price'], str(round(self.checkout.price, 2)))
         self.assertEqual(result.data['discount'], str(round(self.checkout.discount, 2)))
