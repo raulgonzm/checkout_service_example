@@ -29,3 +29,7 @@ def get_product_by_code(product_code):
     if product:
         return product
     raise ProductDoesNotExist(product_id=product_code)
+
+
+def clean_products():
+    Product.query.delete()

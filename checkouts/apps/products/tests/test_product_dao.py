@@ -61,3 +61,17 @@ class ProductDAOTestCase(TestCase):
         with self.assertRaises(ProductDoesNotExist):
             product_dao.get_product_by_code(9999)
 
+    def test_clean_products(self):
+        new_product = ProductFactory()
+        new_product = product_dao.insert_product(new_product)
+        self.assertIsInstance(new_product.id, int)
+        self.assertEqual(
+            len(Product.query.all()),
+            2
+        )
+        product_dao.clean_products()
+        self.assertEqual(
+            len(Product.query.all()),
+            0
+        )
+

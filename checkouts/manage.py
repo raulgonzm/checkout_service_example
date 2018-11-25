@@ -13,6 +13,7 @@ from apps.checkouts.models import Checkout
 from apps.products.models import Product
 from apps.purchase_items.models import PurchaseItem
 from apps.products.fixtures import load_product_fixture
+from core import db as manage_db
 
 app = create_app(env=get_env_variable("ENV"))
 app.app_context().push()
@@ -36,8 +37,8 @@ def run():
 def test():
     tests = unittest.TestLoader().discover("apps/", pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
-    db.create_all()
-    load_product_fixture()
+    manage_db.init_db(db)
+    load_fixtures()
     if result.wasSuccessful():
         return 0
     return 1
@@ -45,7 +46,7 @@ def test():
 
 @manager.command
 def load_fixtures():
-    load_product_fixture()
+    manage_db.load_fixtures(db)
 
 
 if __name__ == '__main__':
