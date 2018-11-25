@@ -14,9 +14,29 @@ Currently We have three kind of discount rules:
 - Two for One discount (TwoForOneDiscount). The marketing department believes in 2-for-1 promotions 
     (buy two of the same product, get one free), and would like for there to be a 2-for-1 special on VOUCHER items.
     
+    
+    DiscountRuleConfig(
+        title="Two For One",
+        target_type=ALL_TARGET_TYPE,
+        value_type="percentage",
+        value=-100,
+        prerequisite_quantity=2,
+        entitled_quantity=1
+    )
+    
 - Percentage discount (PercentageDiscount). The CFO insists that the best way to increase sales is with 
     discounts on bulk purchases (buying x or more of a product, the price of that product is reduced), 
     and demands that if you buy 3 or more TSHIRT items, the price per unit should be 19.00€.
+    
+    
+    PRICING_RULE_BULK_PURCHASE_ALL = DiscountRuleConfig(
+        title="Bulk Purchase",
+        target_type=ALL_TARGET_TYPE,
+        value_type=PERCENTAGE_TYPE,
+        value=5,
+        prerequisite_quantity=3,
+        entitled_quantity=1
+    )
 
 - Fixed amount discount (FixedAmountDiscount). This discount substract to the checkout price the value of the 
     discount.
