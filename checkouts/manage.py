@@ -37,6 +37,7 @@ def test():
     tests = unittest.TestLoader().discover("apps/", pattern='test*.py')
     result = unittest.TextTestRunner(verbosity=2).run(tests)
     db.create_all()
+    load_product_fixture()
     if result.wasSuccessful():
         return 0
     return 1
