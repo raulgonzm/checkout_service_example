@@ -12,7 +12,7 @@ it checks if a discount is applicable by target, the kind of the product, and by
 Currently We have three kind of discount rules:
 
 - Two for One discount (TwoForOneDiscount). The marketing department believes in 2-for-1 promotions 
-    (buy two of the same product, get one free), and would like for there to be a 2-for-1 special on VOUCHER items.
+(buy two of the same product, get one free), and would like for there to be a 2-for-1 special on VOUCHER items.
     
     
     DiscountRuleConfig(
@@ -25,8 +25,8 @@ Currently We have three kind of discount rules:
     )
     
 - Percentage discount (PercentageDiscount). The CFO insists that the best way to increase sales is with 
-    discounts on bulk purchases (buying x or more of a product, the price of that product is reduced), 
-    and demands that if you buy 3 or more TSHIRT items, the price per unit should be 19.00€.
+discounts on bulk purchases (buying x or more of a product, the price of that product is reduced), and demands that 
+if you buy 3 or more TSHIRT items, the price per unit should be 19.00€.
     
     
     PRICING_RULE_BULK_PURCHASE_ALL = DiscountRuleConfig(
@@ -38,8 +38,7 @@ Currently We have three kind of discount rules:
         entitled_quantity=1
     )
 
-- Fixed amount discount (FixedAmountDiscount). This discount substract to the checkout price the value of the 
-    discount.
+- Fixed amount discount (FixedAmountDiscount). This discount substract to the checkout price the value of the discount.
 
 To set up each discount we have a data structure called *DiscountRuleConfig*. This structure has the fields needed 
 to configure a dicount:
@@ -66,7 +65,7 @@ abstract class and implementing the *apply_to_price_purchase* method.
         def apply_to_price_purchase(self, purchase):
             ...
 
-Finally, you can set up your discounts implemented using the *CURRENT_DISCOUNTS_RULES* var in the settings 
+Finally, you can set up your discounts implemented using the *CURRENT_DISCOUNTS_RULES* variable in the settings 
 of the application:
 
     CURRENT_DISCOUNTS_RULES = [
@@ -102,7 +101,7 @@ to achieve this:
 - For simplicity we have not added persistence to discount rules. With this feature we could obtain an admin interface
 to configure and maintain our discounts. This could be a feature implemented in the feature. We could have fields like
 active, start date and end date which could be interesting to add to our discounts if we have this admin interface. In
-this way, we'll can a way to change any discounts without re-deploy our service after this changes.  
+this way, we will have a manner to change any discount on the fly.
 
 ## Future outlines
 

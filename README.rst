@@ -66,7 +66,7 @@ Checkout Service API
 You have a Postman collection and a Postman environment inside the project. This collection has a complete
 aggregation of Checkout service API endpoints.
 
-Principally you have three endpoints:
+Mainly you have three endpoints:
 
 - Product List
 .. code-block::
@@ -166,7 +166,7 @@ An example of response would be:
 Pricing Rules
 ==========================================
 
-There are two pricing rules configured by default right now. You can check this inside of
+There are two pricing rules configured by default right now. You can check out this inside of
 */apps/pricing_rules/settings.py* file.
 
 .. code-block::
@@ -189,7 +189,7 @@ There are two pricing rules configured by default right now. You can check this 
 We have two discounts applied: a *"two for one"* discount and a percentage discount. Both have their own configuration
 inside PRICING_RULE_TWO_FOR_ONE_ALL and PRICING_RULE_BULK_PURCHASE_ALL configuration vars.
 
-We can check one of them these configurations:
+We can check out one of these configurations:
 
 .. code-block::
 ::
